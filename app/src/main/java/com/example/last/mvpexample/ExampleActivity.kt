@@ -1,23 +1,19 @@
-package com.example.last
+package com.example.last.mvpexample
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.View
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.example.last.databinding.ActivityMainBinding
-import com.example.last.mvpexample.MainPresenter
-import com.example.last.mvpexample.MainView
+import com.example.last.databinding.ActivityExampleBinding
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
-class MainActivity : AppCompatActivity(), MainView {
+class ExampleActivity : MvpAppCompatActivity(), ExampleView {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityExampleBinding
 
-    private val presenter = MainPresenter(this)
+    private val presenter by moxyPresenter { ExamplePresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityExampleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.run {
