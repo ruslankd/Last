@@ -1,7 +1,10 @@
 package com.example.last.data.user
 
-interface GithubUserRepository {
-    fun getUsers(): List<GithubUser>
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
 
-    fun getUserByLogin(userId: String): GithubUser?
+interface GithubUserRepository {
+    fun getUsers(): Single<List<GithubUser>>
+
+    fun getUserByLogin(userId: String): Maybe<GithubUser>
 }

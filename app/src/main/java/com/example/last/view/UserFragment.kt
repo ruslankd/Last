@@ -3,6 +3,7 @@ package com.example.last.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.last.data.user.GitHubUserRepositoryFactory
@@ -49,6 +50,14 @@ class UserFragment: MvpAppCompatFragment(), UserView {
 
     override fun showUser(user: GithubUser) {
         vb?.userLogin?.text = user.login
+    }
+
+    override fun showError(error: Throwable) {
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showEmpty() {
+        Toast.makeText(requireContext(), "User not found!", Toast.LENGTH_SHORT).show()
     }
 
 }
