@@ -1,6 +1,8 @@
 package com.example.last.data.user
 
-import com.example.last.data.user.GithubUser
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 class GitHubUserRepositoryImpl : GithubUserRepository {
     private val repositories = listOf(
@@ -11,10 +13,11 @@ class GitHubUserRepositoryImpl : GithubUserRepository {
         GithubUser("login5")
     )
 
-    override fun getUsers() : List<GithubUser> {
-        return repositories
-    }
+    override fun getUsers(): Single<List<GithubUser>> =
+        Single.just(repositories)
 
-    override fun getUserByLogin(userId: String): GithubUser? =
+    override fun getUserByLogin(userId: String): Maybe<GithubUser> =
         repositories.firstOrNull { user -> user.login == userId }
+            ?.let { Maybe.just(it) }
+            ?: Maybe.empty()
 }

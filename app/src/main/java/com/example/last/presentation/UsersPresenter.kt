@@ -7,6 +7,7 @@ import com.example.last.presentation.users.adapter.IUserListPresenter
 import com.example.last.presentation.users.adapter.UserItemView
 import com.example.last.view.UsersView
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(val usersRepo: GitHubUserRepositoryImpl, val router: Router) : MvpPresenter<UsersView>() {
@@ -23,6 +24,7 @@ class UsersPresenter(val usersRepo: GitHubUserRepositoryImpl, val router: Router
     }
 
     val usersListPresenter = UsersListPresenter()
+    private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -37,14 +39,20 @@ class UsersPresenter(val usersRepo: GitHubUserRepositoryImpl, val router: Router
     }
 
     fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        disposable = usersRepo.getUsers().subscribe { users ->
+            usersListPresenter.users.addAll(users)
+            viewState.updateList()
+        }
     }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        disposable?.dispose()
+        super.onDestroy()
     }
 
 }
