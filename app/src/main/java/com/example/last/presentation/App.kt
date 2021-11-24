@@ -1,4 +1,4 @@
-package com.example.last
+package com.example.last.presentation
 
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone

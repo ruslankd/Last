@@ -4,5 +4,6 @@ import com.github.terrakok.cicerone.Screen
 
 interface IScreens {
     fun users(): Screen
-    fun user(userLogin: String): Screen
+    fun repositories(userLogin: String): Screen
+    fun repository(userLogin: String, reposName: String): Screen
 }

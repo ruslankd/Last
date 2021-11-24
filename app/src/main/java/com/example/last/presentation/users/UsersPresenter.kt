@@ -1,16 +1,18 @@
-package com.example.last.presentation
+package com.example.last.presentation.users
 
 import com.example.last.data.user.GithubUser
-import com.example.last.data.user.GitHubUserRepositoryImpl
+import com.example.last.data.user.GithubUserRepositoryImpl
 import com.example.last.presentation.navigation.AndroidScreens
 import com.example.last.presentation.users.adapter.IUserListPresenter
 import com.example.last.presentation.users.adapter.UserItemView
-import com.example.last.view.UsersView
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GitHubUserRepositoryImpl, val router: Router) : MvpPresenter<UsersView>() {
+class UsersPresenter(val usersRepo: GithubUserRepositoryImpl, val router: Router) :
+    MvpPresenter<UsersView>() {
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
         override var itemClickListener: ((UserItemView) -> Unit)? = null
@@ -32,17 +34,22 @@ class UsersPresenter(val usersRepo: GitHubUserRepositoryImpl, val router: Router
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            router.navigateTo(AndroidScreens().user(
-                usersListPresenter.users[itemView.pos].login
-            ))
+            router.navigateTo(
+                AndroidScreens().repositories(
+                    usersListPresenter.users[itemView.pos].login
+                )
+            )
         }
     }
 
     fun loadData() {
-        disposable = usersRepo.getUsers().subscribe { users ->
-            usersListPresenter.users.addAll(users)
-            viewState.updateList()
-        }
+        disposable = usersRepo.getUsers()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.newThread())
+            .subscribe { users ->
+                usersListPresenter.users.addAll(users)
+                viewState.updateList()
+            }
     }
 
     fun backPressed(): Boolean {
