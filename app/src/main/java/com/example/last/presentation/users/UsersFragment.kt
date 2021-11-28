@@ -1,13 +1,13 @@
-package com.example.last.view
+package com.example.last.presentation.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.last.App
-import com.example.last.data.user.GitHubUserRepositoryImpl
+import com.example.last.data.user.GithubUserRepositoryImpl
 import com.example.last.databinding.FragmentUsersBinding
-import com.example.last.presentation.UsersPresenter
+import com.example.last.presentation.App
+import com.example.last.presentation.BackButtonListener
 import com.example.last.presentation.users.adapter.UsersRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -17,7 +17,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GitHubUserRepositoryImpl(), App.instance.router) }
+    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUserRepositoryImpl(), App.instance.router) }
     var adapter: UsersRVAdapter? = null
 
     private var vb: FragmentUsersBinding? = null

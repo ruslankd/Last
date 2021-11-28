@@ -1,7 +1,7 @@
 package com.example.last.data.user
 
-object GitHubUserRepositoryFactory {
+object GithubUserRepositoryFactory {
 
-    fun create(): GithubUserRepository = GitHubUserRepositoryImpl()
+    fun create(): GithubUserRepository = GithubUserRepositoryImpl()
 
 }

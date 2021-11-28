@@ -1,7 +1,6 @@
-package com.example.last.presentation
+package com.example.last.presentation.main
 
 import com.example.last.presentation.navigation.IScreens
-import com.example.last.view.MainView
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 

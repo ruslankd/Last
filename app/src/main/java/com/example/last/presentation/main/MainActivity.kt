@@ -1,11 +1,11 @@
-package com.example.last.view
+package com.example.last.presentation.main
 
 import android.os.Bundle
-import com.example.last.App
+import com.example.last.presentation.App
 import com.example.last.R
 import com.example.last.databinding.ActivityMainBinding
-import com.example.last.presentation.MainPresenter
 import com.example.last.presentation.navigation.AndroidScreens
+import com.example.last.presentation.BackButtonListener
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
