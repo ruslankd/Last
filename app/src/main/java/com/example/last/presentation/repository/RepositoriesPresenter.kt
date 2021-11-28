@@ -20,12 +20,20 @@ class RepositoriesPresenter(
     override fun onFirstViewAttach() {
         disposable = userRepository
             .getUserByLogin(userLogin)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+//            .flatMap {
+//                userRepository.getUserRepositories(it.login)
+//                    .map { repositories -> repositories.map(GithubRepositoryViewModel.Mapper::map) }
+//            }
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeOn(Schedulers.newThread())
+//            .subscribe(
+//                { repositories -> viewState.showRepositories(repositories) },
+//                { error -> viewState.showError(error) },
+//                { viewState.showEmpty() })
             .subscribe(
                 { user ->
                     userRepository
-                        .getUserRepositories(user)
+                        .getUserRepositories(user.login)
                         .observeOn(Schedulers.newThread())
                         .map { repositories -> repositories.map(GithubRepositoryViewModel.Mapper::map) }
                         .observeOn(AndroidSchedulers.mainThread())

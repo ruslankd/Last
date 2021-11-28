@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.last.data.user.GithubUserRepositoryImpl
+import com.example.last.data.user.GithubUserRepositoryFactory
 import com.example.last.databinding.FragmentUsersBinding
 import com.example.last.presentation.App
 import com.example.last.presentation.BackButtonListener
@@ -17,12 +17,21 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUserRepositoryImpl(), App.instance.router) }
+    private val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter(
+            GithubUserRepositoryFactory.create(),
+            App.instance.router
+        )
+    }
     var adapter: UsersRVAdapter? = null
 
     private var vb: FragmentUsersBinding? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         FragmentUsersBinding.inflate(inflater, container, false).also {
             vb = it
         }.root

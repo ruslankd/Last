@@ -1,10 +1,16 @@
 package com.example.last.presentation
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 
 class App : Application() {
+
+    @SuppressLint("StaticFieldLeak")
+    object ContextHolder { lateinit var context: Context }
+
     companion object {
         lateinit var instance: App
     }
@@ -18,5 +24,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        ContextHolder.context = this
     }
 }
