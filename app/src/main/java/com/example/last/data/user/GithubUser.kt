@@ -1,28 +1,25 @@
 package com.example.last.data.user
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "github_users")
 data class GithubUser(
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
     val id: Int,
+
+    @ColumnInfo
     @SerializedName("login")
     val login: String,
+
+    @ColumnInfo
     @SerializedName("name")
     val name: String?,
+
+    @ColumnInfo
     @SerializedName("avatar_url")
-    val avatar: String,
-    @SerializedName("repos_url")
-    val reposUrl: String,
-    @SerializedName("type")
-    val type: Type
-) {
-
-    enum class Type {
-        @SerializedName("User")
-        USER,
-        @SerializedName("Admin")
-        ADMINISTRATOR,
-        UNKNOWN
-    }
-
-}
+    val avatar: String
+)

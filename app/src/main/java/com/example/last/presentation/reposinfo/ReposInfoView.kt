@@ -1,6 +1,6 @@
 package com.example.last.presentation.reposinfo
 
-import com.example.last.data.user.GithubRepository
+import com.example.last.data.repository.GithubRepository
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

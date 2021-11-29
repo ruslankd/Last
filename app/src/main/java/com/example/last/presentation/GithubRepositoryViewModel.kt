@@ -1,6 +1,6 @@
 package com.example.last.presentation
 
-import com.example.last.data.user.GithubRepository
+import com.example.last.data.repository.GithubRepository
 
 data class GithubRepositoryViewModel(
     val name: String,

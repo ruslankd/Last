@@ -1,6 +1,7 @@
 package com.example.last.presentation.repository
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,7 @@ class RepositoriesFragment : MvpAppCompatFragment(), RepositoriesView, Repositor
 
     override fun showError(error: Throwable) {
         Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+        Log.d("MY", error.stackTraceToString())
     }
 
     override fun onRepositoryPicked(repository: GithubRepositoryViewModel) {

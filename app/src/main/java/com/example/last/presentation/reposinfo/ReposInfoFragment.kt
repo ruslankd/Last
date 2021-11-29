@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import com.example.last.data.user.GithubRepository
+import com.example.last.data.repository.GithubRepository
 import com.example.last.data.user.GithubUserRepositoryFactory
 import com.example.last.databinding.FragmentReposInfoBinding
 import moxy.MvpAppCompatFragment
