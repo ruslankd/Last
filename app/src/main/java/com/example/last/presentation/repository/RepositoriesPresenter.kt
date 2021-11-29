@@ -30,18 +30,13 @@ class RepositoriesPresenter(
 //                { repositories -> viewState.showRepositories(repositories) },
 //                { error -> viewState.showError(error) },
 //                { viewState.showEmpty() })
+            .map { user ->
+                userRepository.getUserRepositories(user.login)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.newThread())
             .subscribe(
-                { user ->
-                    userRepository
-                        .getUserRepositories(user.login)
-                        .observeOn(Schedulers.newThread())
-                        .map { repositories -> repositories.map(GithubRepositoryViewModel.Mapper::map) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.newThread())
-                        .subscribe(
-                            viewState::showRepositories
-                        )
-                },
+                { viewState::showRepositories },
                 { error -> viewState.showError(error) },
                 { viewState.showEmpty() }
             )

@@ -8,7 +8,7 @@ import com.example.last.data.user.GithubUser
 @Database(
     exportSchema = false,
     entities = [GithubUser::class, GithubRepository::class],
-    version = 1
+    version = 1,
 )
 abstract class GithubStorage : RoomDatabase() {
     abstract fun getGitHubUserDao(): GithubUserDao

@@ -3,6 +3,7 @@ package com.example.last.presentation.users
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.last.data.user.GithubUserRepositoryFactory
 import com.example.last.databinding.FragmentUsersBinding
@@ -49,6 +50,14 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun showError(error: Throwable) {
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showEmpty() {
+        Toast.makeText(requireContext(), "Not found users", Toast.LENGTH_SHORT).show()
     }
 
     override fun backPressed() = presenter.backPressed()

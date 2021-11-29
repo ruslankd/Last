@@ -17,10 +17,10 @@ interface GithubUserDao {
     @Query("SELECT * FROM github_users WHERE login LIKE :login LIMIT 1")
     fun getUserByLogin(login: String): Observable<GithubUser>
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun retain(users: List<GithubUser>): Completable
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun retain(user: GithubUser): Completable
 
 }

@@ -7,19 +7,19 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "github_users")
 data class GithubUser(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
     val id: Int,
 
+    @ColumnInfo
     @SerializedName("login")
     val login: String,
 
+    @ColumnInfo
     @SerializedName("name")
     val name: String?,
 
+    @ColumnInfo
     @SerializedName("avatar_url")
-    val avatar: String,
-
-    @SerializedName("repos_url")
-    val reposUrl: String
+    val avatar: String
 )

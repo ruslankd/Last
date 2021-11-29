@@ -1,6 +1,7 @@
 package com.example.last.data.repository
 
 import androidx.annotation.Nullable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -14,16 +15,23 @@ import com.google.gson.annotations.SerializedName
 data class GithubRepository(
 //    @Expose(serialize = false, deserialize = false)
 
-    var login: String,
-    @PrimaryKey
+    @ColumnInfo
+    var login: String?,
+
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
     var id: Int,
+
+    @ColumnInfo
     @SerializedName("name")
     val name: String,
+    @ColumnInfo
     @SerializedName("forks_count")
     val forksCount: Int,
+    @ColumnInfo
     @SerializedName("description")
-    val description: String,
+    val description: String?,
+    @ColumnInfo
     @SerializedName("size")
     val size: Int
 )

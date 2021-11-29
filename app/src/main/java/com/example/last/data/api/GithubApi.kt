@@ -2,6 +2,8 @@ package com.example.last.data.api
 
 import com.example.last.data.repository.GithubRepository
 import com.example.last.data.user.GithubUser
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

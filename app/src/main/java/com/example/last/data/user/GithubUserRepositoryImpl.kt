@@ -16,22 +16,22 @@ class GithubUserRepositoryImpl(
 ) : GithubUserRepository {
 
     override fun getUsers(): Observable<List<GithubUser>> {
-        return githubUserDataSource
-            .getUsers()
-            .doOnSuccess(githubUserCacheDataSource::retain)
-            .onErrorReturn { githubUserCacheDataSource.getUsers().blockingFirst() }
-            .toObservable()
-//        return Observable.merge(
-//            githubUserCacheDataSource
-//                .getUsers(),
-//            githubUserDataSource
-//                .getUsers()
-//                .flatMapObservable(githubUserCacheDataSource::retain)
-//        )
+//        return githubUserDataSource
+//            .getUsers()
+//            .doOnSuccess(githubUserCacheDataSource::retain)
+//            .onErrorReturn { githubUserCacheDataSource.getUsers().blockingFirst() }
+//            .toObservable()
+        return Observable.merge(
+            githubUserCacheDataSource
+                .getUsers(),
+            githubUserDataSource
+                .getUsers()
+                .flatMapObservable(githubUserCacheDataSource::retain)
+        )
     }
 
     override fun getUserByLogin(login: String): Observable<GithubUser> =
-        Observable.concat(
+        Observable.merge(
             githubUserCacheDataSource
                 .getUserByLogin(login),
             githubUserDataSource
@@ -42,7 +42,12 @@ class GithubUserRepositoryImpl(
                         .flatMapCompletable {
                             githubRepositoryDataSource
                                 .getUserRepositories(user.login)
-                                .map { repositories -> repositories.map { repository -> repository.copy(login = user.login) }}
+                                .map { repositories ->
+                                    repositories
+                                        .map { repository ->
+                                            repository.copy(login = user.login)
+                                        }
+                                }
                                 .flatMapCompletable(githubRepositoryCacheDataSource::retain)
                         }
                 }
@@ -55,6 +60,7 @@ class GithubUserRepositoryImpl(
                 .getUserRepositories(login),
             githubRepositoryDataSource
                 .getUserRepositories(login)
+                .map { repositories -> repositories.map { repository -> repository.copy(login = login) }}
                 .flatMapCompletable(githubRepositoryCacheDataSource::retain)
                 .toObservable()
         )

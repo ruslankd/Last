@@ -51,8 +51,8 @@ class UsersPresenter(val usersRepo: GithubUserRepository, val router: Router) :
                     usersListPresenter.users.addAll(users)
                     viewState.updateList()
                 },
-                {},
-                {})
+                {error -> viewState.showError(error)},
+                {viewState.showEmpty()})
     }
 
     fun backPressed(): Boolean {
