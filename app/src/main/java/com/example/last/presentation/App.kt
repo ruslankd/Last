@@ -1,22 +1,23 @@
 package com.example.last.presentation
 
-import android.app.Application
+import com.example.last.di.DaggerAppComponent
+import com.example.last.presentation.navigation.AndroidScreens
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class App : Application() {
-    companion object {
-        lateinit var instance: App
-    }
+class App : DaggerApplication() {
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-    }
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerAppComponent
+            .builder()
+            .withContext(applicationContext)
+            .withAndroidScreens(AndroidScreens())
+            .apply {
+                val cicerone = Cicerone.create(Router())
+                withRouter(cicerone.router)
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+            }
+            .build()
 }

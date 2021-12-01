@@ -1,7 +1,7 @@
 package com.example.last.presentation.users
 
 import com.example.last.data.user.GithubUser
-import com.example.last.data.user.GithubUserRepositoryImpl
+import com.example.last.data.user.GithubUserRepository
 import com.example.last.presentation.navigation.AndroidScreens
 import com.example.last.presentation.users.adapter.IUserListPresenter
 import com.example.last.presentation.users.adapter.UserItemView
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUserRepositoryImpl, val router: Router) :
+class UsersPresenter (private val usersRepo: GithubUserRepository, private val router: Router) :
     MvpPresenter<UsersView>() {
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()

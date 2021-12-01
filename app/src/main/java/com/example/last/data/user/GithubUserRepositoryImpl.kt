@@ -1,13 +1,13 @@
 package com.example.last.data.user
 
 import com.example.last.data.api.GithubApi
-import com.example.last.data.api.GithubApiFactory
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GithubUserRepositoryImpl(
-    private val gitHubApi: GithubApi = GithubApiFactory.create()
-) : GithubUserRepository {
+class GithubUserRepositoryImpl
+    @Inject constructor(private val gitHubApi: GithubApi)
+ : GithubUserRepository {
 
     override fun getUsers(): Single<List<GithubUser>> =
         gitHubApi

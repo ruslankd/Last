@@ -1,23 +1,33 @@
 package com.example.last.presentation.users
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.last.data.user.GithubUserRepository
 import com.example.last.data.user.GithubUserRepositoryImpl
 import com.example.last.databinding.FragmentUsersBinding
 import com.example.last.presentation.App
 import com.example.last.presentation.BackButtonListener
+import com.example.last.presentation.abs.AbsFragment
 import com.example.last.presentation.users.adapter.UsersRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
+class UsersFragment : AbsFragment(), UsersView, BackButtonListener {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUserRepositoryImpl(), App.instance.router) }
+    @Inject lateinit var githubUserRepository: GithubUserRepository
+
+    private val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter(
+            githubUserRepository,
+            router)
+    }
     var adapter: UsersRVAdapter? = null
 
     private var vb: FragmentUsersBinding? = null
@@ -38,6 +48,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         vb?.rvUsers?.adapter = adapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun updateList() {
         adapter?.notifyDataSetChanged()
     }
