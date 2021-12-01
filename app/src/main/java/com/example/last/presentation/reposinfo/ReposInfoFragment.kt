@@ -1,5 +1,6 @@
 package com.example.last.presentation.reposinfo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import com.example.last.data.user.GithubRepository
-import com.example.last.data.user.GithubUserRepositoryFactory
+import com.example.last.data.user.GithubUserRepository
 import com.example.last.databinding.FragmentReposInfoBinding
-import moxy.MvpAppCompatFragment
+import com.example.last.presentation.abs.AbsFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class ReposInfoFragment : MvpAppCompatFragment(), ReposInfoView {
+class ReposInfoFragment : AbsFragment(), ReposInfoView {
 
     companion object {
         private const val USER_LOGIN = "user_login"
@@ -30,9 +32,12 @@ class ReposInfoFragment : MvpAppCompatFragment(), ReposInfoView {
             return _binding!!
         }
 
+    @Inject
+    lateinit var githubUserRepository: GithubUserRepository
+
     private val presenter: ReposInfoPresenter by moxyPresenter {
         ReposInfoPresenter(
-            userLogin, reposName, GithubUserRepositoryFactory.create()
+            userLogin, reposName, githubUserRepository
         )
     }
 
@@ -53,12 +58,13 @@ class ReposInfoFragment : MvpAppCompatFragment(), ReposInfoView {
         arguments?.getString(REPOS_NAME).orEmpty()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun showInfo(repository: GithubRepository) {
         viewBinding.tvReposInfo.text =
             "Name: ${repository.name}\n" +
-            "Description: ${repository.description}\n" +
-            "Forks count: ${repository.forksCount}\n" +
-            "Size: ${repository.size}"
+                    "Description: ${repository.description}\n" +
+                    "Forks count: ${repository.forksCount}\n" +
+                    "Size: ${repository.size}"
     }
 
     override fun showError(error: Throwable) {

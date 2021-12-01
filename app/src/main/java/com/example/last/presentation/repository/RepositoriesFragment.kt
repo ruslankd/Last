@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.example.last.data.user.GithubUserRepositoryFactory
+import com.example.last.data.user.GithubUserRepository
 import com.example.last.databinding.FragmentRepositoriesBinding
 import com.example.last.presentation.App
 import com.example.last.presentation.GithubRepositoryViewModel
+import com.example.last.presentation.abs.AbsFragment
 import com.example.last.presentation.repository.adapter.RepositoriesAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class RepositoriesFragment : MvpAppCompatFragment(), RepositoriesView, RepositoriesAdapter.Delegate {
+class RepositoriesFragment : AbsFragment(), RepositoriesView, RepositoriesAdapter.Delegate {
 
     companion object {
         private const val ARG_USER_LOGIN = "arg_user_login"
@@ -30,11 +32,13 @@ class RepositoriesFragment : MvpAppCompatFragment(), RepositoriesView, Repositor
         arguments?.getString(ARG_USER_LOGIN).orEmpty()
     }
 
+    @Inject lateinit var githubUserRepository: GithubUserRepository
+
     private val presenter: RepositoriesPresenter by moxyPresenter {
         RepositoriesPresenter(
             userLogin = userLogin,
-            userRepository = GithubUserRepositoryFactory.create(),
-            router = App.instance.router
+            userRepository = githubUserRepository,
+            router = router
         )
     }
 

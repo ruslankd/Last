@@ -1,8 +1,6 @@
 package com.example.last.presentation.reposinfo
 
 import com.example.last.data.user.GithubUserRepository
-import com.example.last.data.user.GithubUserRepositoryFactory
-import com.example.last.presentation.GithubRepositoryViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
